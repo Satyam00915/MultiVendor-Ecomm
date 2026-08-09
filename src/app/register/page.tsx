@@ -1,0 +1,158 @@
+"use client";
+import React, { useState } from "react";
+
+const Register = () => {
+  const [show, setShow] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUser((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSignUp = (e: React.SubmitEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log(user);
+  };
+
+  return (
+    <div className="relative flex-1 min-h-screen flex flex-col items-center justify-center bg-linear-to-tr from-slate-950 via-slate-900 to-slate-950 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white overflow-hidden py-12 px-4">
+      {/* Decorative gradient background glows */}
+      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+      <div className="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl pointer-events-none animate-pulse [animation-delay:2s]"></div>
+
+      {/* Main content wrapper */}
+      <div className="relative flex flex-col items-center z-10 w-full max-w-3xl">
+        <div className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-linear-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent text-center drop-shadow-sm">
+          MultiVendor ECOMMERCE
+        </div>
+
+        <div className="text-slate-400 text-sm mt-3 tracking-widest uppercase font-semibold text-center mb-10">
+          Create Your Account
+        </div>
+
+        {!show ? (
+          <div className="flex flex-col sm:flex-row gap-5 w-full justify-center px-4">
+            {[
+              { label: "User", value: "User" },
+              { label: "Admin", value: "Admin" },
+              { label: "Vendor", value: "Vendor" },
+            ].map((item) => (
+              <div
+                key={item.label}
+                onClick={() => setShow(true)}
+                className="flex-1 cursor-pointer py-8 px-6 text-center font-bold text-xl rounded-2xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-md shadow-xl text-slate-300 hover:text-white hover:border-indigo-500/50 hover:bg-slate-900/70 hover:shadow-indigo-500/5 hover:-translate-y-1.5 transition-all duration-300 active:scale-98 flex flex-col items-center justify-center min-h-[140px] group relative overflow-hidden"
+              >
+                {/* Glow border overlay effect on hover */}
+                <div className="absolute inset-0 bg-linear-to-b from-indigo-500/0 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                {/* Icon wrapper badge */}
+                <div className="w-10 h-10 rounded-full bg-slate-950/60 border border-slate-850 flex items-center justify-center mb-3 group-hover:border-indigo-500/30 group-hover:bg-indigo-950/30 transition-all duration-300">
+                  <span className="text-sm font-bold text-slate-400 group-hover:text-indigo-400 transition-colors duration-300">
+                    {item.value[0]}
+                  </span>
+                </div>
+
+                <span className="relative z-10 transition-colors duration-250">
+                  {item.value}
+                </span>
+
+                <span className="text-xs font-normal text-slate-500 mt-1.5 group-hover:text-slate-400 transition-colors duration-250">
+                  Join as {item.value}
+                </span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="w-full max-w-md bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-8 sm:p-10 shadow-2xl transition-all duration-300 hover:border-slate-700/50">
+            <form action="" className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <div className="flex flex-col space-y-4">
+                <div className="text-center mb-2">
+                  <h3 className="text-2xl font-bold text-slate-200">Register</h3>
+                  <p className="text-xs text-slate-400 mt-1">Please enter your credentials to register</p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    required
+                    placeholder="Full Name"
+                    onChange={handleChange}
+                    value={user.fullName}
+                    className="w-full px-4 py-3 bg-slate-950/40 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                    onChange={handleChange}
+                    value={user.email}
+                    className="w-full px-4 py-3 bg-slate-950/40 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      placeholder="Password"
+                      required
+                      onChange={handleChange}
+                      value={user.password}
+                      className="w-full px-4 py-3 pr-12 bg-slate-950/40 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors cursor-pointer text-xs font-semibold select-none"
+                    >
+                      {showPassword ? "HIDE" : "SHOW"}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  onClick={handleSignUp}
+                  className="w-full py-4 mt-6 bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                >
+                  Submit
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setShow(false)}
+                  className="mt-4 text-xs font-semibold text-slate-450 hover:text-slate-355 transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 self-center"
+                >
+                  ← Back to Selection
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Register;
