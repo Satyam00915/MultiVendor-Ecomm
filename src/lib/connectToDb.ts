@@ -6,7 +6,8 @@ if (!cached) {
 }
 
 async function connectToDb() {
-  const MONGO_URI = process.env.MONGO_URI as string;
+  const MONGO_URI = process.env.MONGO_URI;
+  console.log(MONGO_URI);
   if (!MONGO_URI) {
     throw new Error("DB Error");
   }
