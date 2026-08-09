@@ -1,8 +1,8 @@
 "use client";
 import axios from "axios";
-import { navigate } from "next/dist/client/components/segment-cache/navigation";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { ClipLoader } from "react-spinners";
 
 const Register = () => {
   const [show, setShow] = useState(false);
@@ -155,7 +155,7 @@ const Register = () => {
                   onClick={handleSignUp}
                   className="w-full py-4 mt-6 bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                 >
-                  Submit
+                  {loading ? <ClipLoader size={20} /> : "Register"}
                 </button>
 
                 <div className="relative flex py-2 items-center">

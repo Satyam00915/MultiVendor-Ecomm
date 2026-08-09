@@ -1,6 +1,9 @@
 "use client";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -10,15 +13,46 @@ const Login = () => {
   const navigate = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const handleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
     setLoading(true);
+    try {
+      const res = await signIn("credentials", {
+        email: user.email,
+        password: user.password,
+        redirect: false,
+      });
+      navigate.push("/");
+      toast.success("Signin Success", {
+        position: "bottom-left",
+        style: {
+          borderRadius: "14px",
+          background: "rgba(15, 23, 42, 0.85)",
+          color: "#f8fafc",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          backdropFilter: "blur(12px)",
+          padding: "12px 18px",
+          fontSize: "14px",
+          fontWeight: "600",
+          boxShadow: "0 12px 24px -4px rgba(0, 0, 0, 0.4)",
+        },
+        iconTheme: {
+          primary: "#10b981",
+          secondary: "#ffffff",
+        },
+      });
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
+
   return (
     <div className="relative flex-1 min-h-screen flex flex-col items-center justify-center bg-linear-to-tr from-slate-950 via-slate-900 to-slate-950 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white overflow-hidden py-12 px-4">
       {/* Decorative gradient background glows */}
@@ -36,11 +70,7 @@ const Login = () => {
         </div>
 
         <div className="w-full max-w-md bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-8 sm:p-10 shadow-2xl transition-all duration-300 hover:border-slate-700/50">
-          <form
-            action=""
-            className="space-y-5"
-            onSubmit={(e) => e.preventDefault()}
-          >
+          <form onSubmit={handleSignIn} className="space-y-5">
             <div className="flex flex-col space-y-4">
               <div className="text-center mb-2">
                 <h3 className="text-2xl font-bold text-slate-200">Login</h3>
@@ -93,7 +123,7 @@ const Login = () => {
                 onClick={handleSignIn}
                 className="w-full py-4 mt-6 bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
-                Submit
+                {loading ? <ClipLoader size={20} /> : "Login"}
               </button>
 
               <div className="relative flex py-2 items-center">
