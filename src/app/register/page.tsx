@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { ClipLoader } from "react-spinners";
@@ -167,6 +168,7 @@ const Register = () => {
                 </div>
 
                 <button
+                  onClick={() => signIn("google", { callbackUrl: "/" })}
                   type="button"
                   className="w-full py-3.5 px-4 bg-slate-950/60 hover:bg-slate-950/80 border border-slate-800 hover:border-slate-700/60 rounded-xl text-sm font-semibold text-slate-200 hover:text-white flex items-center justify-center gap-3 transition-all duration-300 shadow-md cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
                 >
