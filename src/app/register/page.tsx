@@ -21,7 +21,7 @@ const Register = () => {
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -153,7 +153,6 @@ const Register = () => {
 
                 <button
                   type="submit"
-                  onClick={handleSignUp}
                   className="w-full py-4 mt-6 bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                 >
                   {loading ? <ClipLoader size={20} /> : "Register"}

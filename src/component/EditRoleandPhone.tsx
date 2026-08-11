@@ -32,7 +32,7 @@ function EditRoleandPhone() {
     },
   ];
 
-  const handleEdit = async (e) => {
+  const handleEdit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!roleSet || !phone) {
       toast.error("Admin Already Exists!", {
@@ -99,7 +99,7 @@ function EditRoleandPhone() {
         </p>
 
         {/* Mobile Number Input Section */}
-        <form onSubmit={handleEdit} className="w-full mb-8">
+        <form className="w-full mb-8">
           <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
             Mobile Number
           </label>
@@ -215,7 +215,6 @@ function EditRoleandPhone() {
             })}
 
             <button
-              type="submit"
               onClick={handleEdit}
               className="col-span-3 w-full py-4 mt-6 bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm tracking-wide rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer flex items-center justify-center gap-2"
             >
