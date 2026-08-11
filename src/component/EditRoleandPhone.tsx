@@ -210,6 +210,9 @@ function EditRoleandPhone() {
                   <span className="text-sm font-bold text-slate-300 group-hover:text-white transition-colors">
                     {role.label}
                   </span>
+                  <span className="text-sm mt-2 text-red-400">
+                    {isAdminBlocked && "Admin already Exists"}
+                  </span>
                 </button>
               );
             })}
