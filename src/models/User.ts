@@ -6,7 +6,7 @@ enum Role {
   Vendor = "vendor",
 }
 
-interface IUser extends Document {
+export interface IUser extends Document {
   fullName: string;
   email: string;
   password?: string;

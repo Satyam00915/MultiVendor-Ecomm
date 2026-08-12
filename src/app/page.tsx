@@ -1,21 +1,18 @@
 import { auth, signOut } from "@/auth";
+import AdminDashboard from "@/component/Admin/AdminDashboard";
 import EditRoleandPhone from "@/component/EditRoleandPhone";
+import Navbar from "@/component/Navbar";
+import UserDashboard from "@/component/User/UserDashboard";
+import VendorDashboard from "@/component/Vendor/VendorDashboard";
 import connectToDb from "@/lib/connectToDb";
 import User from "@/models/User";
 import { redirect } from "next/navigation";
-
-export const logOut = async () => {
-  "use server";
-  await signOut({
-    redirectTo: "/login",
-  });
-};
 
 const Home = async () => {
   await connectToDb();
   const session = await auth();
   console.log(session);
-  const user = await User.findById(session?.user?.id);
+  let user = await User.findById(session?.user?.id);
   if (!user) {
     redirect("/login");
   }
@@ -25,10 +22,19 @@ const Home = async () => {
   if (inComplete) {
     return <EditRoleandPhone />;
   }
+
+  user = JSON.parse(JSON.stringify(user));
   return (
-    <form action={logOut}>
-      <button type="submit">Sign Out</button>
-    </form>
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-linear-to-tr from-slate-950 via-slate-900 to-slate-950 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white overflow-hidden py-12 px-4">
+      <Navbar user={user} />
+      {user?.role === "user" ? (
+        <UserDashboard />
+      ) : user?.role === "vendor" ? (
+        <VendorDashboard />
+      ) : (
+        <AdminDashboard />
+      )}
+    </div>
   );
 };
 
