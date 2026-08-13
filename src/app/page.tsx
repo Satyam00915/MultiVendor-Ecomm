@@ -23,6 +23,7 @@ const Home = async () => {
     return <EditRoleandPhone />;
   }
 
+  user = JSON.parse(JSON.stringify(user));
   return (
     <div className="relative min-h-screen flex flex-col bg-linear-to-tr from-slate-950 via-slate-900 to-slate-950 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white overflow-x-hidden">
       <Navbar user={user} />
