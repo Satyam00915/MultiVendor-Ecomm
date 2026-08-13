@@ -122,7 +122,7 @@ function Navbar({ user }: { user: IUser }) {
               )}
             </div>
 
-            <CartBtn router={router} count={"0"} />
+            {user?.role === "user" && <CartBtn router={router} count={"0"} />}
           </div>
 
           {/* MobileIcons */}
