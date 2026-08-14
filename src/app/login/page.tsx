@@ -22,6 +22,13 @@ const Login = () => {
         password: user.password,
         redirect: false,
       });
+      if (res?.error) {
+        toast.error("Invalid email or password", {
+          position: "bottom-left",
+        });
+        setLoading(false);
+        return;
+      }
       navigate.push("/");
       toast.success("Signin Success", {
         position: "bottom-left",

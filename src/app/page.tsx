@@ -1,4 +1,4 @@
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 import AdminDashboard from "@/component/Admin/AdminDashboard";
 import EditRoleandPhone from "@/component/EditRoleandPhone";
 import Navbar from "@/component/Navbar";
