@@ -106,7 +106,7 @@ function CategorySlider() {
       className="w-full py-16 bg-slate-950/30 border-y border-slate-900/50 text-white relative overflow-visible"
     >
       <div className="w-full px-4 sm:px-12 relative">
-        <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent text-left mb-8 border-b border-slate-900 pb-4">
+        <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-linear-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent text-left mb-8 border-b border-slate-900 pb-4">
           Shop By Category
         </h2>
 
@@ -132,7 +132,7 @@ function CategorySlider() {
                 return (
                   <motion.div
                     whileHover={{ scale: 1.04, y: -4 }}
-                    className="relative mx-2 bg-slate-900/40 border border-slate-850 rounded-2xl p-6 cursor-pointer text-center flex flex-col items-center justify-center min-h-[170px] shadow-lg overflow-hidden group transition-all duration-300 hover:border-indigo-500/40 hover:shadow-indigo-500/5"
+                    className="relative mx-2 bg-slate-900/40 border border-slate-850 rounded-2xl p-6 cursor-pointer text-center flex flex-col items-center justify-center min-h-42.5 shadow-lg overflow-hidden group transition-all duration-300 hover:border-indigo-500/40 hover:shadow-indigo-500/5"
                     key={item.label}
                   >
                     {/* Background Category Image */}

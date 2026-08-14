@@ -42,7 +42,7 @@ function Slider() {
     return () => clearInterval(intervalId);
   }, [slides.length]);
   return (
-    <div className="relative w-full h-[65vh] min-h-[480px] md:h-[75vh] mt-16 overflow-hidden bg-black text-white">
+    <div className="relative w-full h-[65vh] min-h-120 md:h-[75vh] mt-16 overflow-hidden bg-black text-white">
       <AnimatePresence>
         <motion.div
           key={current}
@@ -60,7 +60,7 @@ function Slider() {
             priority
           />
           {/* Immersive gradient fade to black on the left */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-5"></div>
+          <div className="absolute inset-0 bg-linear-to-r from-black via-black/40 to-transparent z-5"></div>
 
           <div className="absolute inset-0 flex flex-col items-start justify-center px-8 sm:px-16 md:px-24 z-10 max-w-3xl">
             <motion.h3
@@ -75,7 +75,7 @@ function Slider() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-3 leading-tight bg-gradient-to-r from-white via-slate-100 to-slate-350 bg-clip-text text-transparent drop-shadow-sm"
+              className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-3 leading-tight bg-linear-to-r from-white via-slate-100 to-slate-350 bg-clip-text text-transparent drop-shadow-sm"
             >
               {slides[current].description}
             </motion.h1>
@@ -91,7 +91,7 @@ function Slider() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className="px-6 py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 cursor-pointer text-xs tracking-wider uppercase"
+              className="px-6 py-3.5 bg-linear-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 cursor-pointer text-xs tracking-wider uppercase"
             >
               {slides[current].button}
             </motion.button>
