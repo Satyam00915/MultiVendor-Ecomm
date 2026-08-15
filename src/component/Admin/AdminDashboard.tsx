@@ -12,6 +12,7 @@ import VendorApproval from "./VendorApproval";
 import ProductRequests from "./ProductRequests";
 
 function AdminDashboard() {
+  // Admin Dashboard
   const [activePage, setActivePage] = useState("dashboard");
   const [openMenu, setOpenMenu] = useState(false);
   const menu = [
