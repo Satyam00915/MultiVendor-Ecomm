@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import AdminDashboard from "@/component/Admin/AdminDashboard";
 import EditRoleandPhone from "@/component/EditRoleandPhone";
+import Footer from "@/component/Footer";
 import Navbar from "@/component/Navbar";
 import UserDashboard from "@/component/User/UserDashboard";
 import VendorDashboard from "@/component/Vendor/VendorDashboard";
@@ -34,6 +35,7 @@ const Home = async () => {
       ) : (
         <AdminDashboard />
       )}
+      <Footer user={user} />
     </div>
   );
 };

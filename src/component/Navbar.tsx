@@ -103,7 +103,7 @@ function Navbar({ user }: { user: IUser }) {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute right-0 mt-3 w-48 backdrop-blur-xl rounded-xl shadow-2xl border border-slate-800/80 bg-slate-950/90 py-1.5 z-50 overflow-hidden"
+                    className="absolute right-0 mt-3 w-48 backdrop-blur-xl rounded-xl shadow-2xl border border-slate-800/80 bg-slate-950/90 py-1.5 z-10 overflow-hidden"
                   >
                     <DropDownBtn
                       Icon={AiOutlineUser}

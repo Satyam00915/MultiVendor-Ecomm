@@ -42,7 +42,7 @@ function AdminDashboard() {
   return (
     <div className="w-full flex min-h-screen pt-16 bg-linear-to-br from-gray-900 via-black to-gray-900 text-white">
       {/* Mobile Tab bar */}
-      <div className="lg:hidden fixed top-16 left-0 w-full bg-slate-950/80 backdrop-blur-xl px-6 py-3.5 flex justify-between items-center border-b border-slate-900/60 z-50">
+      <div className="lg:hidden fixed top-16 left-0 w-full bg-slate-950/80 backdrop-blur-xl px-6 py-3.5 flex justify-between items-center border-b border-slate-900/60 z-40">
         <h1 className="text-lg font-bold tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
           Admin Panel
         </h1>
