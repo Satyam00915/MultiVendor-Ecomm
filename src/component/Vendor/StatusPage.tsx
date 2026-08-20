@@ -1,5 +1,4 @@
 import { IUser } from "@/models/User";
-import React from "react";
 import VendorDashboard from "./VendorDashboard";
 import { AiOutlineClockCircle } from "react-icons/ai";
 
@@ -30,12 +29,17 @@ function StatusPage({ user }: { user: IUser }) {
           </h2>
           <p className="text-slate-400 text-sm leading-relaxed mb-6 font-light max-w-xs">
             You can access the vendor dashboard only after{" "}
-            <span className="text-indigo-400 font-semibold">Admin Permission</span>.
+            <span className="text-indigo-400 font-semibold">
+              Admin Permission
+            </span>
+            .
           </p>
 
           {/* Details wrapper */}
           <div className="w-full bg-slate-950/40 border border-slate-900 rounded-2xl p-4 mb-4 flex items-center justify-between text-sm">
-            <span className="text-slate-400 font-medium">Verification Status:</span>
+            <span className="text-slate-400 font-medium">
+              Verification Status:
+            </span>
             <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 uppercase tracking-wider">
               {user?.vendor?.verificationStatus}
             </span>
