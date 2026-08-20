@@ -4,36 +4,53 @@ import User from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
-  const { phone, role } = await req.json();
+  const { shopName, shopAddress, gstNumber } = await req.json();
+  const session = await auth();
+  if (!session?.user?.email) {
+    return NextResponse.json(
+      {
+        message: "Unauthorized",
+        success: false,
+      },
+      {
+        status: 401,
+      },
+    );
+  }
 
   try {
     await connectToDb();
-    const session = await auth();
     const user = await User.findByIdAndUpdate(
       session?.user?.id,
       {
-        role,
-        phone,
+        vendor: {
+          shopName,
+          shopAddress,
+          gstNumber,
+          verificationStatus: "pending",
+          requestedAt: new Date(),
+        },
       },
       {
         new: true,
       },
     ).select("-password");
+
     if (!user) {
       return NextResponse.json(
         {
-          message: "User is not found",
+          message: "User not found",
           success: false,
         },
         {
-          status: 400,
+          status: 404,
         },
       );
     }
 
     return NextResponse.json(
       {
-        message: "User updated successfully",
+        message: "Details Updated Successfully",
         user,
         success: true,
       },
@@ -45,7 +62,7 @@ export const POST = async (req: NextRequest) => {
     console.log(error);
     return NextResponse.json(
       {
-        message: "Edit Role and phone Error",
+        message: "Update Vendor Details Error",
         error,
         success: false,
       },

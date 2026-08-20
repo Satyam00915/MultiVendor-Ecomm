@@ -4,6 +4,7 @@ import EditRoleandPhone from "@/component/EditRoleandPhone";
 import Footer from "@/component/Footer";
 import Navbar from "@/component/Navbar";
 import UserDashboard from "@/component/User/UserDashboard";
+import EditVendorDetails from "@/component/Vendor/EditVendorDetails";
 import VendorDashboard from "@/component/Vendor/VendorDashboard";
 import connectToDb from "@/lib/connectToDb";
 import User from "@/models/User";
@@ -22,6 +23,16 @@ const Home = async () => {
 
   if (inComplete) {
     return <EditRoleandPhone />;
+  }
+
+  if (user?.role === "vendor") {
+    const inCompleteDetails =
+      !user?.vendor?.shopName ||
+      !user?.vendor?.shopAddress ||
+      !user?.vendor?.gstNumber;
+    if (inCompleteDetails) {
+      return <EditVendorDetails />;
+    }
   }
 
   user = JSON.parse(JSON.stringify(user));
