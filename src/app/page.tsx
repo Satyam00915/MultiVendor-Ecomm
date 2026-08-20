@@ -5,6 +5,7 @@ import Footer from "@/component/Footer";
 import Navbar from "@/component/Navbar";
 import UserDashboard from "@/component/User/UserDashboard";
 import EditVendorDetails from "@/component/Vendor/EditVendorDetails";
+import StatusPage from "@/component/Vendor/StatusPage";
 import VendorDashboard from "@/component/Vendor/VendorDashboard";
 import connectToDb from "@/lib/connectToDb";
 import User from "@/models/User";
@@ -42,7 +43,7 @@ const Home = async () => {
       {user?.role === "user" ? (
         <UserDashboard />
       ) : user?.role === "vendor" ? (
-        <VendorDashboard />
+        <StatusPage user={user} />
       ) : (
         <AdminDashboard />
       )}

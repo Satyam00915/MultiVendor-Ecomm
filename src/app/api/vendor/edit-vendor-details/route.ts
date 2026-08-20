@@ -27,7 +27,7 @@ export const POST = async (req: NextRequest) => {
           shopName,
           shopAddress,
           gstNumber,
-          verificationStatus: "pending",
+          verificationStatus: "Pending",
           requestedAt: new Date(),
         },
       },
