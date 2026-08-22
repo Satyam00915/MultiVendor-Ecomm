@@ -23,12 +23,12 @@ export const POST = async (req: NextRequest) => {
     const user = await User.findByIdAndUpdate(
       session?.user?.id,
       {
-        vendor: {
-          shopName,
-          shopAddress,
-          gstNumber,
-          verificationStatus: "Pending",
-          requestedAt: new Date(),
+        $set: {
+          "vendor.shopName": shopName,
+          "vendor.shopAddress": shopAddress,
+          "vendor.gstNumber": gstNumber,
+          "vendor.verificationStatus": "Pending",
+          "vendor.requestedAt": new Date(),
         },
       },
       {

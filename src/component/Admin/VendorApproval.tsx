@@ -1,17 +1,59 @@
 "use client";
+import UseGetAllVendor from "@/hooks/UseGetAllVendor";
 import { IUser } from "@/models/User";
 import { RootState } from "@/redux/store";
+import { updateVendorStatus } from "@/redux/vendorSlice";
+import axios from "axios";
 import { AnimatePresence, motion } from "motion/react";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { AiOutlineClose } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
 
 function VendorApproval() {
+  const dispatch = useDispatch();
+  UseGetAllVendor();
   const { AllVendorsData } = useSelector((state: RootState) => state.vendor);
   const [selectedVendor, setSelectedVendor] = useState<IUser | null>(null);
+  const [loading, setLoading] = useState(false);
   const pendingVendors = Array.isArray(AllVendorsData)
     ? AllVendorsData.filter((v) => v.vendor?.verificationStatus === "Pending")
     : [];
+
+  const handleApproved = async () => {
+    if (!selectedVendor) return;
+    setLoading(true);
+    try {
+      const result = await axios.post("/api/admin/updateVendorStatus", {
+        approvalStatus: "Approved",
+        vendorId: selectedVendor._id,
+      });
+      if (!result?.data?.success) {
+        toast.error("Some error occurred");
+        return;
+      }
+
+      dispatch(
+        updateVendorStatus({
+          vendorId: selectedVendor._id,
+          approvalStatus: "Approved",
+        }),
+      );
+      toast.success("Vendor Status Updated");
+      setSelectedVendor(null);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      setSelectedVendor(null);
+    }
+  };
+
+  const handleRejected = async () => {
+    if (!selectedVendor) return;
+    setLoading(true);
+  };
 
   return (
     <div className="w-full p-6 sm:p-10 min-h-screen text-white">
@@ -207,13 +249,21 @@ function VendorApproval() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 mt-8">
-                <button className="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-semibold rounded-xl shadow-lg shadow-emerald-600/10 transition-all duration-300 cursor-pointer flex items-center justify-center">
-                  Approve
-                </button>
-                <button className="flex-1 py-3 px-4 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-semibold rounded-xl shadow-lg shadow-rose-600/10 transition-all duration-300 cursor-pointer flex items-center justify-center">
-                  Reject
+                <button
+                  disabled={loading}
+                  onClick={handleApproved}
+                  className="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-semibold rounded-xl shadow-lg shadow-emerald-600/10 transition-all duration-300 cursor-pointer flex items-center justify-center"
+                >
+                  {loading ? <ClipLoader size={20} /> : "Approve"}
                 </button>
                 <button
+                  disabled={loading}
+                  className="flex-1 py-3 px-4 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-semibold rounded-xl shadow-lg shadow-rose-600/10 transition-all duration-300 cursor-pointer flex items-center justify-center"
+                >
+                  {loading ? <ClipLoader size={20} /> : "Reject"}
+                </button>
+                <button
+                  disabled={loading}
                   onClick={() => setSelectedVendor(null)}
                   className="py-3 px-5 bg-slate-950/60 hover:bg-slate-900 hover:text-white border border-slate-900 text-slate-400 font-semibold rounded-xl transition-all duration-300 cursor-pointer flex items-center justify-center"
                 >
