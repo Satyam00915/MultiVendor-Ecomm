@@ -42,9 +42,11 @@ export const POST = async (req: NextRequest) => {
       });
     } else if (approvalStatus === "Rejected") {
       await User.findByIdAndUpdate(vendorId, {
-        isApproved: false,
-        verificationStatus: "Rejected",
-        rejectedReason,
+        $set: {
+          "vendor.isApproved": false,
+          "vendor.verificationStatus": "Rejected",
+          "vendor.rejectedReason": rejectedReason,
+        },
       });
     }
 

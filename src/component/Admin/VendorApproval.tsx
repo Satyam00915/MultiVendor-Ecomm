@@ -17,6 +17,8 @@ function VendorApproval() {
   const { AllVendorsData } = useSelector((state: RootState) => state.vendor);
   const [selectedVendor, setSelectedVendor] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(false);
+  const [rejectModal, setRejectModal] = useState(false);
+  const [rejectedReason, setRejectedReason] = useState("");
   const pendingVendors = Array.isArray(AllVendorsData)
     ? AllVendorsData.filter((v) => v.vendor?.verificationStatus === "Pending")
     : [];
@@ -53,6 +55,37 @@ function VendorApproval() {
   const handleRejected = async () => {
     if (!selectedVendor) return;
     setLoading(true);
+    try {
+      const result = await axios.post("/api/admin/updateVendorStatus", {
+        vendorId: selectedVendor._id,
+        rejectedReason,
+        approvalStatus: "Rejected",
+      });
+      if (!result?.data?.success) {
+        toast.error("Some error occurred");
+        return;
+      }
+      toast.success("Status updated");
+      dispatch(
+        updateVendorStatus({
+          vendorId: selectedVendor._id,
+          approvalStatus: "Rejected",
+        }),
+      );
+      setSelectedVendor(null);
+      setLoading(false);
+      setRejectModal(false);
+    } catch (error) {
+      console.log(error);
+      setSelectedVendor(null);
+      setLoading(false);
+      setRejectModal(false);
+    }
+  };
+
+  const openRejectReasonArea = () => {
+    setRejectModal(true);
+    setRejectedReason("");
   };
 
   return (
@@ -258,13 +291,70 @@ function VendorApproval() {
                 </button>
                 <button
                   disabled={loading}
+                  onClick={openRejectReasonArea}
                   className="flex-1 py-3 px-4 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-semibold rounded-xl shadow-lg shadow-rose-600/10 transition-all duration-300 cursor-pointer flex items-center justify-center"
                 >
-                  {loading ? <ClipLoader size={20} /> : "Reject"}
+                  Reject
                 </button>
                 <button
                   disabled={loading}
                   onClick={() => setSelectedVendor(null)}
+                  className="py-3 px-5 bg-slate-950/60 hover:bg-slate-900 hover:text-white border border-slate-900 text-slate-400 font-semibold rounded-xl transition-all duration-300 cursor-pointer flex items-center justify-center"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {rejectModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center z-50 px-4"
+          >
+            <motion.div
+              initial={{ scale: 0.93, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.93, opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="relative w-full max-w-lg bg-slate-900/90 border border-slate-800 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl flex flex-col z-10 overflow-hidden"
+            >
+              {/* Close Icon Trigger */}
+              <button
+                onClick={() => setRejectModal(false)}
+                className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors cursor-pointer p-1 rounded-lg hover:bg-slate-950/50"
+              >
+                <AiOutlineClose size={20} />
+              </button>
+
+              <h3 className="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent text-left mb-6 border-b border-slate-950 pb-4">
+                Rejected Reason
+              </h3>
+
+              <textarea
+                placeholder="Enter reason for rejection..."
+                onChange={(e) => setRejectedReason(e.target.value)}
+                rows={4}
+                className="w-full px-4 py-3 bg-slate-950/40 border border-slate-900 focus:border-rose-500 focus:ring-1 focus:ring-rose-500/20 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none transition-all duration-300 resize-none"
+              />
+
+              <div className="flex flex-col sm:flex-row gap-3 mt-8">
+                <button
+                  onClick={handleRejected}
+                  disabled={loading}
+                  className="flex-1 py-3 px-4 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-semibold rounded-xl shadow-lg shadow-rose-600/10 transition-all duration-300 cursor-pointer flex items-center justify-center"
+                >
+                  Confirm Reject
+                </button>
+                <button
+                  disabled={loading}
+                  onClick={() => setRejectModal(false)}
                   className="py-3 px-5 bg-slate-950/60 hover:bg-slate-900 hover:text-white border border-slate-900 text-slate-400 font-semibold rounded-xl transition-all duration-300 cursor-pointer flex items-center justify-center"
                 >
                   Cancel
