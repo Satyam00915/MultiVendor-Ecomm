@@ -5,6 +5,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   const { shopName, shopAddress, gstNumber } = await req.json();
+  if (!shopName || !shopAddress || !gstNumber) {
+    return NextResponse.json(
+      {
+        message: "Fields are missing",
+        success: false,
+      },
+      {
+        status: 404,
+      },
+    );
+  }
   const session = await auth();
   if (!session?.user?.email) {
     return NextResponse.json(
@@ -29,6 +40,7 @@ export const POST = async (req: NextRequest) => {
           "vendor.gstNumber": gstNumber,
           "vendor.verificationStatus": "Pending",
           "vendor.requestedAt": new Date(),
+          "vendor.rejectedReason": null,
         },
       },
       {
