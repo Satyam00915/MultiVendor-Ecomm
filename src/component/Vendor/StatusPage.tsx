@@ -34,7 +34,7 @@ function StatusPage({ user }: { user: IUser }) {
         "/api/vendor/edit-vendor-details",
         vendor,
       );
-      if (response?.data?.success) {
+      if (!response?.data?.success) {
         toast.error(response?.data?.message);
         setLoading(false);
         return;
