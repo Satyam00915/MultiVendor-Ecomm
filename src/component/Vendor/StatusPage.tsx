@@ -125,7 +125,7 @@ function StatusPage({ user }: { user: IUser }) {
                 Reason for Rejection
               </span>
               <p className="text-sm text-slate-300 leading-relaxed italic">
-                "{user?.vendor?.rejectedReason}"
+                {user?.vendor?.rejectedReason}
               </p>
             </div>
           )}

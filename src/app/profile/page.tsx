@@ -1,7 +1,7 @@
 "use client";
 
-import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import {
@@ -18,6 +18,13 @@ import userIcon from "@/assets/user.png";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ClipLoader } from "react-spinners";
+import { setUserData } from "@/redux/userSlice";
+
+interface ProfileData {
+  fullName: string;
+  phone: string;
+  profileImage: File | null;
+}
 
 function Profile() {
   const user = useSelector((state: RootState) => state.user.userData);
@@ -25,10 +32,10 @@ function Profile() {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showEditShop, setShowEditShop] = useState(false);
   const [previewImage, setPreviewImage] = useState(user?.image || userIcon);
-  const [profileDetails, setProfileDetails] = useState({
+  const [profileDetails, setProfileDetails] = useState<ProfileData>({
     fullName: user?.fullName || "",
     phone: user?.phone || "",
-    profileImage: user?.image || "",
+    profileImage: null,
   });
   const [shopDetails, setShopDetails] = useState({
     shopName: user?.vendor?.shopName || "",
@@ -36,13 +43,15 @@ function Profile() {
     gstNumber: user?.vendor?.gstNumber || "",
   });
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handlePreviewImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log(file);
     if (!file) return;
     setProfileDetails((p) => ({
       ...p,
-      profileImage: URL.createObjectURL(file),
+      profileImage: file,
     }));
     setPreviewImage(URL.createObjectURL(file));
   };
@@ -55,6 +64,33 @@ function Profile() {
   const handleShopChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setShopDetails((p) => ({ ...p, [name]: value }));
+  };
+
+  const handleUpdateProfile = async () => {
+    const formData = new FormData();
+    formData.append("fullName", profileDetails.fullName);
+    formData.append("phone", profileDetails.phone);
+    if (profileDetails.profileImage) {
+      formData.append("image", profileDetails.profileImage);
+    }
+    console.log(formData);
+    setLoading(true);
+    try {
+      const result = await axios.post("/api/user/updateProfile", formData);
+      if (!result?.data?.success) {
+        toast.error(result?.data?.message);
+        setLoading(false);
+        return;
+      }
+      dispatch(setUserData(result?.data?.user));
+      setLoading(false);
+      setShowEditProfile(false);
+      setProfileDetails((prev) => ({ ...prev, profileImage: null }));
+      toast.success(result?.data?.message);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const handleUpdateShop = async () => {
@@ -182,11 +218,11 @@ function Profile() {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             onClick={() => {
-              setProfileDetails({
+              setProfileDetails((prev) => ({
+                ...prev,
                 fullName: user?.fullName || "",
                 phone: user?.phone || "",
-                profileImage: user?.image || "",
-              });
+              }));
 
               setPreviewImage(user?.image || userIcon);
               setShowEditProfile(true);
@@ -312,8 +348,16 @@ function Profile() {
                   </div>
                 </div>
 
-                <button className="w-full py-3.5 mt-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm tracking-wide rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
-                  Update Profile
+                <button
+                  onClick={handleUpdateProfile}
+                  disabled={loading}
+                  className="w-full py-3.5 mt-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm tracking-wide rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                >
+                  {loading ? (
+                    <ClipLoader size={20} color="white" />
+                  ) : (
+                    "Update Profile"
+                  )}
                 </button>
               </div>
             </motion.div>
