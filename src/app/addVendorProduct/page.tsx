@@ -79,7 +79,7 @@ function AddVendorProduct() {
     setProductDetails((p) => ({ ...p, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
