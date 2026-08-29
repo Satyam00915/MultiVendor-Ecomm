@@ -201,22 +201,40 @@ function AddVendorProduct() {
         </div>
 
         {/* Wearable Checkbox block */}
-        <div className="flex items-center gap-3 mb-5 w-full bg-slate-950/20 border border-slate-900 rounded-xl p-4">
-          <input
-            onChange={handleChecked}
-            type="checkbox"
-            name="isWearable"
-            id="isWearable"
-            checked={productDetails.isWearable}
-            className="w-4 h-4 rounded border-slate-800 text-indigo-650 focus:ring-indigo-500/30 focus:ring-offset-slate-950 bg-slate-950/40 cursor-pointer"
-          />
-          <label
-            htmlFor="isWearable"
-            className="text-sm font-semibold text-slate-350 cursor-pointer select-none"
-          >
+        <label
+          htmlFor="isWearable"
+          className="flex items-center gap-3.5 mb-5 w-full bg-slate-950/20 border border-slate-900 rounded-xl p-4 cursor-pointer hover:border-slate-800 transition-colors select-none"
+        >
+          <div className="relative flex items-center">
+            <input
+              onChange={handleChecked}
+              type="checkbox"
+              name="isWearable"
+              id="isWearable"
+              checked={productDetails.isWearable}
+              className="peer sr-only"
+            />
+            {/* Custom Checkbox Box */}
+            <div className="w-5 h-5 rounded-lg border border-slate-800 bg-slate-950 flex items-center justify-center peer-checked:bg-gradient-to-r peer-checked:from-indigo-600 peer-checked:to-violet-600 peer-checked:border-indigo-500/20 transition-all duration-200 shadow-inner">
+              <svg
+                className="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={3}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+          </div>
+          <span className="text-sm font-semibold text-slate-350">
             This is a Wearable / Clothing Product
-          </label>
-        </div>
+          </span>
+        </label>
 
         {/* Sizes layout (conditional) */}
         {productDetails.isWearable && (
@@ -280,38 +298,73 @@ function AddVendorProduct() {
 
         {/* Logistics checkboxes */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full mb-6">
-          <div className="flex items-center gap-3 bg-slate-950/20 border border-slate-900 rounded-xl p-4">
-            <input
-              onChange={handleChecked}
-              type="checkbox"
-              name="freeDelivery"
-              id="freeDelivery"
-              checked={productDetails.freeDelivery}
-              className="w-4 h-4 rounded border-slate-800 text-indigo-650 focus:ring-indigo-500/30 focus:ring-offset-slate-950 bg-slate-950/40 cursor-pointer"
-            />
-            <label
-              htmlFor="freeDelivery"
-              className="text-sm font-semibold text-slate-350 cursor-pointer select-none"
-            >
+          <label
+            htmlFor="freeDelivery"
+            className="flex items-center gap-3.5 bg-slate-950/20 border border-slate-900 rounded-xl p-4 cursor-pointer hover:border-slate-800 transition-colors select-none"
+          >
+            <div className="relative flex items-center">
+              <input
+                onChange={handleChecked}
+                type="checkbox"
+                name="freeDelivery"
+                id="freeDelivery"
+                checked={productDetails.freeDelivery}
+                className="peer sr-only"
+              />
+              <div className="w-5 h-5 rounded-lg border border-slate-800 bg-slate-950 flex items-center justify-center peer-checked:bg-gradient-to-r peer-checked:from-indigo-600 peer-checked:to-violet-600 peer-checked:border-indigo-500/20 transition-all duration-200 shadow-inner">
+                <svg
+                  className="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={3}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+            </div>
+            <span className="text-sm font-semibold text-slate-350">
               Free Delivery
-            </label>
-          </div>
-          <div className="flex items-center gap-3 bg-slate-950/20 border border-slate-900 rounded-xl p-4">
-            <input
-              onChange={handleChecked}
-              type="checkbox"
-              name="payOnDelivery"
-              id="payOnDelivery"
-              checked={productDetails.payOnDelivery}
-              className="w-4 h-4 rounded border-slate-800 text-indigo-650 focus:ring-indigo-500/30 focus:ring-offset-slate-950 bg-slate-950/40 cursor-pointer"
-            />
-            <label
-              htmlFor="payOnDelivery"
-              className="text-sm font-semibold text-slate-350 cursor-pointer select-none"
-            >
+            </span>
+          </label>
+
+          <label
+            htmlFor="payOnDelivery"
+            className="flex items-center gap-3.5 bg-slate-950/20 border border-slate-900 rounded-xl p-4 cursor-pointer hover:border-slate-800 transition-colors select-none"
+          >
+            <div className="relative flex items-center">
+              <input
+                onChange={handleChecked}
+                type="checkbox"
+                name="payOnDelivery"
+                id="payOnDelivery"
+                checked={productDetails.payOnDelivery}
+                className="peer sr-only"
+              />
+              <div className="w-5 h-5 rounded-lg border border-slate-800 bg-slate-950 flex items-center justify-center peer-checked:bg-gradient-to-r peer-checked:from-indigo-600 peer-checked:to-violet-600 peer-checked:border-indigo-500/20 transition-all duration-200 shadow-inner">
+                <svg
+                  className="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={3}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+            </div>
+            <span className="text-sm font-semibold text-slate-350">
               Pay On Delivery (COD)
-            </label>
-          </div>
+            </span>
+          </label>
         </div>
 
         {/* Image upload segment */}
