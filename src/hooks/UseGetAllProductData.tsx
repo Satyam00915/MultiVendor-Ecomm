@@ -1,27 +1,27 @@
 "use client";
 import { AppDispatch } from "@/redux/store";
-import { setAllVendorsData } from "@/redux/vendorSlice";
+import { setAllProductsData } from "@/redux/vendorSlice";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-function UseGetAllVendor() {
+function UseGetAllProductData() {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    async function getData() {
+    async function req() {
       try {
-        const response = await axios.get("/api/vendor/getAllVendor");
+        const response = await axios.get("/api/vendor/allProduct");
         if (!response.data.success) {
           return;
         }
-        dispatch(setAllVendorsData(response?.data?.Vendors));
+        dispatch(setAllProductsData(response?.data?.allProducts));
       } catch (error) {
+        dispatch(setAllProductsData([]));
         console.log(error);
-        dispatch(setAllVendorsData([]));
       }
     }
-    getData();
+    req();
   }, [dispatch]);
 }
 
-export default UseGetAllVendor;
+export default UseGetAllProductData;

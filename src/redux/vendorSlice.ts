@@ -1,12 +1,15 @@
+import { IProduct } from "@/models/Product";
 import { IUser } from "@/models/User";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IVendor {
   AllVendorsData: IUser[];
+  AllProductData: IProduct[] | null;
 }
 
 const initialState: IVendor = {
   AllVendorsData: [],
+  AllProductData: [],
 };
 
 export const vendorSlice = createSlice({
@@ -23,8 +26,12 @@ export const vendorSlice = createSlice({
         vendor.vendor.verificationStatus = approvalStatus;
       }
     },
+    setAllProductsData: (state, action) => {
+      state.AllProductData = action.payload;
+    },
   },
 });
 
-export const { setAllVendorsData, updateVendorStatus } = vendorSlice.actions;
+export const { setAllVendorsData, updateVendorStatus, setAllProductsData } =
+  vendorSlice.actions;
 export default vendorSlice.reducer;

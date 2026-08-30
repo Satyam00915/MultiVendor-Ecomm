@@ -9,7 +9,7 @@ interface IReview {
   createdAt: Date;
 }
 
-interface IProduct extends Document {
+export interface IProduct extends Document {
   _id: mongoose.Types.ObjectId;
   title: string;
   description: string;
