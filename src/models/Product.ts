@@ -39,7 +39,7 @@ interface IProduct extends Document {
   warranty?: string;
   payOnDelivery?: boolean;
 
-  detailsPoints: string[];
+  detailPoints: string[];
 
   reviews?: IReview[];
 
@@ -126,7 +126,7 @@ const productSchema = new mongoose.Schema<IProduct>(
       type: Boolean,
       default: false,
     },
-    detailsPoints: {
+    detailPoints: {
       type: [String],
       required: true,
       default: [],

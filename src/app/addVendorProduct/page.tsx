@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import { FiUpload } from "react-icons/fi";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { ClipLoader } from "react-spinners";
 
 function AddVendorProduct() {
   const [productDetails, setProductDetails] = useState({
@@ -15,11 +19,13 @@ function AddVendorProduct() {
     replacementDays: "",
     warranty: "",
     isWearable: false,
+    sizes: [] as string[],
     freeDelivery: false,
     payOnDelivery: false,
     images: [] as File[],
     detailPoints: [] as string[],
   });
+  const [loading, setLoading] = useState(false);
 
   const [currentPoint, setCurrentPoint] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,9 +34,6 @@ function AddVendorProduct() {
   const [previewImage2, setPreviewImage2] = useState<File | null>(null);
   const [previewImage3, setPreviewImage3] = useState<File | null>(null);
   const [previewImage4, setPreviewImage4] = useState<File | null>(null);
-  console.log(productDetails);
-  const [sizes, setSizes] = useState<string[]>([]);
-  console.log(sizes);
   const categories = [
     "Fashion & LifeStyle",
     "Electronics & Gadjets",
@@ -44,10 +47,14 @@ function AddVendorProduct() {
     "Jewelry & Watches",
     "Others",
   ];
+  const router = useRouter();
   const ToggleSize = (size: string) => {
-    setSizes((prev) =>
-      prev.includes(size) ? prev.filter((s) => s !== size) : [...prev, size],
-    );
+    setProductDetails((prev) => ({
+      ...prev,
+      sizes: prev.sizes.includes(size)
+        ? prev.sizes.filter((s) => s !== size)
+        : [...prev.sizes, size],
+    }));
   };
   const handleRemove = (idx: number) => {
     setProductDetails((p) => ({
@@ -79,8 +86,45 @@ function AddVendorProduct() {
     setProductDetails((p) => ({ ...p, [name]: value }));
   };
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (productDetails.images.length < 4) {
+      toast.error("4 Images are required");
+      return;
+    }
+    setLoading(true);
+    const formData = new FormData();
+    Object.entries(productDetails).forEach(([key, value]) => {
+      if (key === "images" && Array.isArray(value)) {
+        value.forEach((image) => formData.append(key, image));
+      } else if (Array.isArray(value)) {
+        value.forEach((item) => formData.append(key, item.toString()));
+      } else if (key === "category") {
+        formData.append(
+          key,
+          value === "Others" ? productDetails.customCategory : value.toString(),
+        );
+      } else {
+        formData.append(key, value.toString());
+      }
+    });
+    formData.delete("customCategory");
+
+
+    try {
+      const res = await axios.post("/api/vendor/addProduct", formData);
+      if (!res?.data?.success) {
+        toast.error(res.data.message);
+        setLoading(false);
+        return;
+      }
+      toast.success(res.data.message);
+      setLoading(false);
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -244,7 +288,7 @@ function AddVendorProduct() {
             </h4>
             <div className="flex flex-wrap gap-2.5">
               {sizeOptions.map((size, index) => {
-                const isSelected = sizes.includes(size);
+                const isSelected = productDetails.sizes.includes(size);
                 return (
                   <motion.button
                     key={index}
@@ -732,7 +776,7 @@ function AddVendorProduct() {
           type="submit"
           className="w-full py-4 mt-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm tracking-wide rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer flex items-center justify-center"
         >
-          Add Product
+          {loading ? <ClipLoader size={28} /> : "Add Product"}
         </button>
       </form>
     </div>
