@@ -20,7 +20,7 @@ export const GET = async () => {
     }
 
     const allProducts = await Product.find()
-      .populate("vendor", "name email vendor.shopName")
+      .populate("vendor", "name email vendor.shopName _id")
       .sort({ createdAt: -1 });
 
     return NextResponse.json(
