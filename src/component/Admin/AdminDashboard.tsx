@@ -40,7 +40,7 @@ function AdminDashboard() {
   };
   const router = useRouter();
   return (
-    <div className="w-full flex min-h-screen pt-16 bg-linear-to-br from-gray-900 via-black to-gray-900 text-white">
+    <div className="w-full flex min-h-screen pt-16 bg-linear-to-br from-gray-900 via-black to-gray-900 text-white overflow-x-hidden">
       {/* Mobile Tab bar */}
       <div className="lg:hidden fixed top-16 left-0 w-full bg-slate-950/80 backdrop-blur-xl px-6 py-3.5 flex justify-between items-center border-b border-slate-900/60 z-40">
         <h1 className="text-lg font-bold tracking-wide bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
@@ -152,10 +152,10 @@ function AdminDashboard() {
 
       {/* Main Area  */}
       <motion.div
-        initial={{ opacity: 0, x: 40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.4 }}
-        className="flex-1 p-10 mt-16 lg:mt-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="flex-1 p-4 sm:p-6 lg:p-10 mt-14 lg:mt-0 max-w-full overflow-x-hidden"
       >
         {renderPage()}
       </motion.div>

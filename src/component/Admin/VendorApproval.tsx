@@ -89,7 +89,7 @@ function VendorApproval() {
   };
 
   return (
-    <div className="w-full p-6 sm:p-10 min-h-screen text-white">
+    <div className="w-full max-w-full text-white font-sans">
       {/* Title */}
       <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent text-left mb-8 border-b border-slate-900 pb-4">
         Vendor Approval Requests

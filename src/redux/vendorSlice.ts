@@ -29,9 +29,20 @@ export const vendorSlice = createSlice({
     setAllProductsData: (state, action) => {
       state.AllProductData = action.payload;
     },
+    updateProductStatus: (state, action) => {
+      const { productId, approvalStatus } = action.payload;
+      const product = state.AllProductData?.find((p) => p._id === productId);
+      if (product) {
+        product.verificationStatus = approvalStatus;
+      }
+    },
   },
 });
 
-export const { setAllVendorsData, updateVendorStatus, setAllProductsData } =
-  vendorSlice.actions;
+export const {
+  setAllVendorsData,
+  updateVendorStatus,
+  setAllProductsData,
+  updateProductStatus,
+} = vendorSlice.actions;
 export default vendorSlice.reducer;
