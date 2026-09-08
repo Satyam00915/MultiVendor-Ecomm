@@ -141,6 +141,9 @@ function VendorProducts() {
                     <td className="px-6 py-4.5 text-sm text-center">
                       <div className="flex items-center justify-center gap-2">
                         <motion.button
+                          onClick={() =>
+                            router.push(`/updateProduct/${product._id}`)
+                          }
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.97 }}
                           className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-semibold rounded-lg shadow-md transition-all duration-300 cursor-pointer"
@@ -271,6 +274,7 @@ function VendorProducts() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.97 }}
+                    onClick={() => router.push(`/updateProduct/${product._id}`)}
                     className="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white text-xs font-semibold rounded-lg shadow-md transition-all duration-300 cursor-pointer text-center"
                   >
                     Edit
