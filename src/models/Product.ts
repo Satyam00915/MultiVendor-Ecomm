@@ -32,7 +32,7 @@ export interface IProduct extends Document {
   approvedAt?: Date;
   rejectedReason?: string;
 
-  isActive?: boolean;
+  isActive: boolean;
 
   replacementDays?: number;
   freeDelivery?: boolean;

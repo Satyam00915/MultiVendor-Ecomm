@@ -5,13 +5,17 @@ import { useRouter } from "next/navigation";
 import { IProduct } from "@/models/Product";
 import { AiOutlineClose } from "react-icons/ai";
 import { ClipLoader } from "react-spinners";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Image from "next/image";
 import UseGetAllProductData from "@/hooks/UseGetAllProductData";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { updateProductActiveStatus } from "@/redux/vendorSlice";
 
 function VendorProducts() {
   const router = useRouter();
+  const dispatch = useDispatch();
   UseGetAllProductData();
   const { userData } = useSelector((state: RootState) => state.user);
   const { AllProductData } = useSelector((state: RootState) => state.vendor);
@@ -25,6 +29,28 @@ function VendorProducts() {
 
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>();
   const [loading, setLoading] = useState(false);
+
+  const handleActiveStatus = async (productId: string, isActive: boolean) => {
+    try {
+      setLoading(true);
+      const res = await axios.post("/api/vendor/isActiveProduct", {
+        productId,
+        isActive: !isActive,
+      });
+      if (!res?.data?.success) {
+        setLoading(false);
+        toast.error(res?.data?.message);
+        return;
+      }
+
+      toast.success(res?.data?.message);
+      setLoading(false);
+      dispatch(updateProductActiveStatus({ productId, isActive: !isActive }));
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
   return (
     <div className="w-full max-w-full text-white font-sans overflow-x-hidden">
       {/* Header  */}
@@ -153,6 +179,12 @@ function VendorProducts() {
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.97 }}
+                          onClick={() =>
+                            handleActiveStatus(
+                              product._id.toString(),
+                              product.isActive,
+                            )
+                          }
                           disabled={product.verificationStatus !== "Approved"}
                           className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg shadow-md transition-all duration-300 ${
                             product.verificationStatus === "Approved"

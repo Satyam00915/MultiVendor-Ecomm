@@ -36,6 +36,13 @@ export const vendorSlice = createSlice({
         product.verificationStatus = approvalStatus;
       }
     },
+    updateProductActiveStatus: (state, action) => {
+      const { productId, isActive } = action.payload;
+      const product = state.AllProductData?.find((p) => p._id === productId);
+      if (product) {
+        product.isActive = isActive;
+      }
+    },
   },
 });
 
@@ -44,5 +51,6 @@ export const {
   updateVendorStatus,
   setAllProductsData,
   updateProductStatus,
+  updateProductActiveStatus,
 } = vendorSlice.actions;
 export default vendorSlice.reducer;
